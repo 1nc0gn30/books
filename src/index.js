@@ -1,23 +1,48 @@
+//The import statements under this are like grabbing tools from a toolbox
+//grabing tools so that we can use them
+//were taking out get firestore, collection deletedoc adddoc etc all these 
+//they are all tools that we will use in this app which came from
+//firebase
 import { initializeApp } from 'firebase/app';
 import { 
     getFirestore, collection, onSnapshot, addDoc , deleteDoc, doc,
     query, where, orderBy, serverTimestamp
 } from 'firebase/firestore';
 
+// This is configuring the settings on our remote before we use it
 const firebaseConfig = {
-    // Your Firebase Config
 };
 
+//This initialize is turning the remote on after bateries are in
 initializeApp(firebaseConfig);
 
+
+//dialing into a channel on the TV now we are connected to firebase
+//database channel and we are ready to send and recieve data
+// just like when you watch tv you are sending and recieveing data
+//between you and the device or even us now
+//using the computer is sending and recieving data
+//thats what we are doing here now that we are 
+//connected to the get firestore
 const db = getFirestore();
 
+
+// like chosing a specific folder in a filling cabinet
+// where we keep all our books information
+// colref constant is a refrence 
+// to that specific folder
 const colRef = collection(db, 'books');
 
-// Sort by created time
+// now imagine looking for certain papers in our books folder
+//but we want them sorted by the date, the query function 
+// is doing that
 const q = query(colRef, orderBy('createdAt'));
 
 // Real-time listener
+//imagine we hired an assitant
+//to always keep a watchful eye on the books folder
+//anytime a new paper is added updated or deleted
+//they tell us in real time whats in the folder
 onSnapshot(q, (snapshot) => {
     let books = [];
     snapshot.docs.forEach((doc) => {
@@ -26,7 +51,13 @@ onSnapshot(q, (snapshot) => {
     console.log(books);
 });
 
+
+
 // Add a new book
+//filing a form into our books folder on a new piece of paper
+//like a form where if you hand it to someone 
+//they fill it out and give it to us 
+//we would put that info in our book collection and give the paper back to them
 const addBookForm = document.querySelector('.add');
 addBookForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -39,7 +70,9 @@ addBookForm.addEventListener('submit', (e) => {
     });
 });
 
-// Delete a book
+
+//similar to the add boook but the other process like a shred
+// which Delete a book
 const deleteBookForm = document.querySelector('.delete');
 deleteBookForm.addEventListener('submit', (e) => {
     e.preventDefault();
