@@ -7,8 +7,13 @@ import { initializeApp } from 'firebase/app';
 import { 
     getFirestore, collection, onSnapshot, addDoc , deleteDoc, doc,
     query, where, orderBy, serverTimestamp,
-    getdoc, updateDoc
+    getDoc, updateDoc
 } from 'firebase/firestore';
+import{
+    getAuth, createUserWithEmailAndPassword
+}
+    from 'firebase/auth'
+
 
 // This is configuring the settings on our remote before we use it
 const firebaseConfig = {
@@ -26,6 +31,7 @@ initializeApp(firebaseConfig);
 //thats what we are doing here now that we are 
 //connected to the get firestore
 const db = getFirestore();
+const auth = getAuth();
 
 
 // like chosing a specific folder in a filling cabinet
@@ -95,8 +101,43 @@ onSnapshot(docRef, (doc) => {
 
 //updating a document
 
-const updateForm = document.querySelector('.update')
-updateForm.addEventListener('submit', (e) =>{
-    e.preventDefault()
-})
+const updateForm = document.querySelector('.update');
+updateForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    // Create a document reference
+    const docRef = doc(db, 'books', updateForm.id.value);
+
+    // Update the document
+    updateDoc(docRef, { title: 'updated title' })
+    .then(() => {
+        // Reset the form after the update is successful
+        updateForm.reset();
+    })
+    .catch((error) => {
+        // Log any errors
+        console.error("Error updating document: ", error);
+    });
+
+});
+
+    //signing users up
+    const signupForm = document.querySelector('.signup')
+    signupForm.addEventListener('submit', (e) => {
+        e.preventDefault()
+
+        const email = signupForm.email.value 
+        const password = signupForm.password.value 
+
+    createUserWithEmailAndPassword(auth, email, password)
+        .then((cred) => {
+            console.log('user created:', cred.user)
+            signupForm.reset()
+
+        })
+        .catch((err) => {
+            console.log(err.message)
+        });
+
+    });
 
