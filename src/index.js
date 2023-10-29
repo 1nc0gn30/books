@@ -6,7 +6,8 @@
 import { initializeApp } from 'firebase/app';
 import { 
     getFirestore, collection, onSnapshot, addDoc , deleteDoc, doc,
-    query, where, orderBy, serverTimestamp
+    query, where, orderBy, serverTimestamp,
+    getdoc
 } from 'firebase/firestore';
 
 // This is configuring the settings on our remote before we use it
@@ -74,10 +75,20 @@ addBookForm.addEventListener('submit', (e) => {
 //similar to the add boook but the other process like a shred
 // which Delete a book
 const deleteBookForm = document.querySelector('.delete');
+
 deleteBookForm.addEventListener('submit', (e) => {
     e.preventDefault();
+
     const docRef = doc(db, 'books', deleteBookForm.id.value);
     deleteDoc(docRef).then(() => {
         deleteBookForm.reset();
     });
-});
+})
+
+//get a single document 
+
+const docRef = doc(db, 'books', "T6hKUExh79lci8xUtEID")
+
+onSnapshot(docRef, (doc) => {
+    console.log(doc.data(), doc.id)
+})
