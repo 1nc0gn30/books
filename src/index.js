@@ -1,8 +1,5 @@
-//The import statements under this are like grabbing tools from a toolbox
-//grabing tools so that we can use them
-//were taking out get firestore, collection deletedoc adddoc etc all these 
-//they are all tools that we will use in this app which came from
-//firebase
+//importing is grabbing the tools we need
+//from the tool box
 import { initializeApp } from 'firebase/app';
 import { 
     getFirestore, collection, onSnapshot, addDoc , deleteDoc, doc,
@@ -17,27 +14,26 @@ import{
 
 // This is configuring the settings on our remote before we use it
 const firebaseConfig = {
-};
+        apiKey: "AIzaSyBK0JLTUSF3LtVxJ7jr4VOqmKcOFW0BxEc",
+        authDomain: "the-digital-builders.firebaseapp.com",
+        projectId: "the-digital-builders",
+        storageBucket: "the-digital-builders.appspot.com",
+        messagingSenderId: "981290387520",
+        appId: "1:981290387520:web:97fe68d363709b4e92f7a5",
+        measurementId: "G-EKNKT0F2WF"
+    };
 
 //This initialize is turning the remote on after bateries are in
 initializeApp(firebaseConfig);
 
 
-//dialing into a channel on the TV now we are connected to firebase
-//database channel and we are ready to send and recieve data
-// just like when you watch tv you are sending and recieveing data
-//between you and the device or even us now
-//using the computer is sending and recieving data
-//thats what we are doing here now that we are 
-//connected to the get firestore
+//connect to the proper channels
 const db = getFirestore();
 const auth = getAuth();
 
 
 // like chosing a specific folder in a filling cabinet
-// where we keep all our books information
-// colref constant is a refrence 
-// to that specific folder
+
 const colRef = collection(db, 'books');
 
 // now imagine looking for certain papers in our books folder
@@ -47,9 +43,7 @@ const q = query(colRef, orderBy('createdAt'));
 
 // Real-time listener
 //imagine we hired an assitant
-//to always keep a watchful eye on the books folder
-//anytime a new paper is added updated or deleted
-//they tell us in real time whats in the folder
+//to listen in real time
 onSnapshot(q, (snapshot) => {
     let books = [];
     snapshot.docs.forEach((doc) => {
@@ -61,10 +55,7 @@ onSnapshot(q, (snapshot) => {
 
 
 // Add a new book
-//filing a form into our books folder on a new piece of paper
-//like a form where if you hand it to someone 
-//they fill it out and give it to us 
-//we would put that info in our book collection and give the paper back to them
+
 const addBookForm = document.querySelector('.add');
 addBookForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -74,7 +65,10 @@ addBookForm.addEventListener('submit', (e) => {
         createdAt: serverTimestamp(),
     }).then(() => {
         addBookForm.reset();
-    });
+    })
+    .catch((error =>{
+        console.log("error adding documents: ", error);
+    }))
 });
 
 
@@ -88,7 +82,10 @@ deleteBookForm.addEventListener('submit', (e) => {
     const docRef = doc(db, 'books', deleteBookForm.id.value);
     deleteDoc(docRef).then(() => {
         deleteBookForm.reset();
-    });
+    })
+    .catch((error =>{
+        console.log("error adding documents: ", error);
+    }))
 })
 
 //get a single document 
@@ -123,8 +120,8 @@ updateForm.addEventListener('submit', (e) => {
 
     //signing users up
     const signupForm = document.querySelector('.signup')
-    signupForm.addEventListener('submit', (e) => {
-        e.preventDefault()
+        signupForm.addEventListener('submit', (e) => {
+         e.preventDefault()
 
         const email = signupForm.email.value 
         const password = signupForm.password.value 
