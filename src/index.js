@@ -1,5 +1,3 @@
-//importing is grabbing the tools we need
-//from the tool box
 import { initializeApp } from 'firebase/app';
 import { 
     getFirestore, collection, onSnapshot, addDoc , deleteDoc, doc,
@@ -12,7 +10,6 @@ import{
     from 'firebase/auth'
 
 
-// This is configuring the settings on our remote before we use it
 const firebaseConfig = {
         apiKey: "AIzaSyBK0JLTUSF3LtVxJ7jr4VOqmKcOFW0BxEc",
         authDomain: "the-digital-builders.firebaseapp.com",
@@ -23,28 +20,26 @@ const firebaseConfig = {
         measurementId: "G-EKNKT0F2WF"
     };
 
-//This initialize is turning the remote on after bateries are in
 initializeApp(firebaseConfig);
 
 
 //connect to the proper channels
-const db = getFirestore();
-const auth = getAuth();
+const database = getFirestore();
+const authService = getAuth();
 
 
 // like chosing a specific folder in a filling cabinet
 
-const colRef = collection(db, 'books');
+const booksCollection = collection(database, 'books');
 
 // now imagine looking for certain papers in our books folder
 //but we want them sorted by the date, the query function 
-// is doing that
-const q = query(colRef, orderBy('createdAt'));
+const sortedBooksByDateQuery = query(collection(database, 'books'), orderBy('createdAt'));
 
 // Real-time listener
 //imagine we hired an assitant
 //to listen in real time
-onSnapshot(q, (snapshot) => {
+onSnapshot(sortedBooksByDateQuery, (snapshot) => {
     let books = [];
     snapshot.docs.forEach((doc) => {
         books.push({ ...doc.data(), id: doc.id });
@@ -55,11 +50,12 @@ onSnapshot(q, (snapshot) => {
 
 
 // Add a new book
+// Use booksCollection because we're adding a new document and don't need sorting
 
 const addBookForm = document.querySelector('.add');
 addBookForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    addDoc(colRef, {
+    addDoc(booksCollection, {
         title: addBookForm.title.value,
         author: addBookForm.author.value,
         createdAt: serverTimestamp(),
@@ -79,7 +75,7 @@ const deleteBookForm = document.querySelector('.delete');
 deleteBookForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const docRef = doc(db, 'books', deleteBookForm.id.value);
+    const docRef = doc(database, 'books', deleteBookForm.id.value);
     deleteDoc(docRef).then(() => {
         deleteBookForm.reset();
     })
@@ -90,7 +86,7 @@ deleteBookForm.addEventListener('submit', (e) => {
 
 //get a single document 
 
-const docRef = doc(db, 'books', "T6hKUExh79lci8xUtEID")
+const docRef = doc(database, 'books', "T6hKUExh79lci8xUtEID")
 
 onSnapshot(docRef, (doc) => {
     console.log(doc.data(), doc.id)
@@ -103,7 +99,7 @@ updateForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
     // Create a document reference
-    const docRef = doc(db, 'books', updateForm.id.value);
+    const docRef = doc(database, 'books', updateForm.id.value);
 
     // Update the document
     updateDoc(docRef, { title: 'updated title' })
