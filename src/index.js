@@ -10,16 +10,16 @@ import{
     from 'firebase/auth'
 
 
-const firebaseConfig = {
-        apiKey: "AIzaSyBK0JLTUSF3LtVxJ7jr4VOqmKcOFW0BxEc",
-        authDomain: "the-digital-builders.firebaseapp.com",
-        projectId: "the-digital-builders",
-        storageBucket: "the-digital-builders.appspot.com",
-        messagingSenderId: "981290387520",
-        appId: "1:981290387520:web:97fe68d363709b4e92f7a5",
-        measurementId: "G-EKNKT0F2WF"
-    };
-
+    const firebaseConfig = {
+        apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+        authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+        projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+        storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+        messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+        appId: process.env.REACT_APP_FIREBASE_APP_ID,
+        measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
+      };
+      
 initializeApp(firebaseConfig);
 
 
