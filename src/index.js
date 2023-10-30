@@ -122,7 +122,7 @@ updateForm.addEventListener('submit', (e) => {
         const email = signupForm.email.value 
         const password = signupForm.password.value 
 
-    createUserWithEmailAndPassword(auth, email, password)
+    createUserWithEmailAndPassword(authService, email, password)
         .then((cred) => {
             console.log('user created:', cred.user)
             signupForm.reset()
