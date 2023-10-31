@@ -1,7 +1,8 @@
 [build]
   base = "/"
   publish = "dist/"
-  command = "npm run build" # command to build your frontend
+  command = "npm install webpack-cli && npm run build"
+
 
 [build.environment]
   NODE_ENV = "production"
