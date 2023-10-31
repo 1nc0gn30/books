@@ -8,7 +8,6 @@
     "build": "npx webpack --mode production",
     "start": "npx webpack serve"
   },
-  
   "keywords": [],
   "author": "",
   "license": "ISC",
