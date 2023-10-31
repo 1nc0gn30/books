@@ -1,7 +1,7 @@
 [build]
   base = "/"
   publish = "build/" # or "dist/" or wherever your built frontend files are located
-  command = "npm run build" # command to build your frontend
+  command = "npm install && npm run build" # command to build your frontend
 
 [build.environment]
   NODE_ENV = "production"
